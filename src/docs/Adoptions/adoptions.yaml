@@ -1,0 +1,87 @@
+paths:
+  /api/adoptions/{uid}/{pid}:
+    post:
+      summary: Endpoint para crear una adopción con el usuario y la mascota
+      tags:
+        - Adoptions
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID de la mascota
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Adopción creada con éxito
+        '404':
+          description: Usuario o mascota no encontrados
+        '500':
+          description: No se pudo completar la adopción
+
+  /api/adoptions/{aid}:
+    get:
+      summary: Ruta para mostrar una adopción por su ID
+      tags:
+        - Adoptions
+      parameters:
+        - name: aid
+          in: path
+          required: true
+          description: ID de la adopción
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se obtuvo la adopción correctamente por su ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adoption'
+        '404':
+          description: Adopción no encontrada
+        '500':
+          description: Error interno del servidor
+
+  /api/adoptions:
+    get:
+      summary: Endpoint para obtener todas las adopciones
+      tags:
+        - Adoptions
+      responses:
+        '200':
+          description: Se obtuvieron todas las adopciones concretadas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adoption'
+        '500':
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        owner:
+          type: string
+          description: ID del usuario que adopta la mascota
+        pet:
+          type: string
+          description: ID de la mascota adoptada
+      example:
+        owner: "64af9206fbedb5446d72f3c1"
+        pet: "64af93a6fbedb5446d72f3c2"
+
+
+
+
+     

@@ -1,0 +1,141 @@
+paths:
+  /api/pets:
+    get:
+      summary: Obtenemos todas las mascotas de la BD
+      tags:
+        - Pets
+      responses:
+        '200':
+          description: Se obtienen todas las mascotas correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Creamos una mascota nueva
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createPet'
+      responses:
+        '201':
+          description: Mascota creada con éxito
+        '500':
+          description: No se pudo crear la mascota
+
+  /api/pets/{pid}:
+    put:
+      summary: Modificamos un registro de una mascota que traemos por su ID
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID de la mascota a modificar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updatePet'
+      responses:
+        '201':
+          description: Mascota modificada con éxito
+        '404':
+          description: Mascota no encontrada
+        '500':
+          description: Error interno del servidor  
+    delete:
+      summary: Borramos una mascota por ID de la BD
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID de la mascota a borrar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Mascota borrada con éxito de la BD
+        '500':
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por MongoDB
+        name:
+          type: string
+          description: Nombre de la mascota
+        specie:
+          type: string
+          description: Especie de la mascota
+        birthDate:
+          type: string
+          format: date
+          description: Fecha de nacimiento de la mascota  
+      example:
+        _id: ObjectId('123456')
+        name: pulga
+        specie: perro
+        birthDate: 2021-07-12
+
+  requestBodies:
+    createPet:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre de la mascota
+        specie:
+          type: string
+          description: Especie de la mascota
+        birthDate:
+          type: string
+          format: date
+          description: Fecha de nacimiento de la mascota
+      example:
+        name: fido
+        specie: ave
+        birthDate: 2019-07-11
+
+    updatePet:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre de la mascota
+        specie:
+          type: string
+          description: Especie de la mascota
+        birthDate:
+          type: string
+          format: date
+          description: Fecha de nacimiento de la mascota
+      example:
+        name: arturo
+        specie: perro
+        birthDate: 2020-01-15
+
+
+
+      
+
+
