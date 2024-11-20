@@ -1,6 +1,5 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
 import adoptionsRouter from './routes/adoption.router.js';
@@ -14,8 +13,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express();
-const PORT = process.env.PORT||8080;
-//const connection = mongoose.connect(`URL DE MONGO`)
+const PORT = process.env.PORT||3000;
 
 app.use(express.json());
 app.use(cookieParser());

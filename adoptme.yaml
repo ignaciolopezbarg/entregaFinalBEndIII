@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adoptme-deployment
+  labels:
+    app: adoptme
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: adoptme
+  template:
+    metadata:
+      labels:
+        app: adoptme
+    spec:
+      containers:
+      - name: adoptme-container
+        image: ignaciolopezbarg/adoptme # Verifica que este sea el nombre correcto
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: MONGO_URL
+          value: "mongodb+srv://nacho:holanacho@cluster0.g6mfb4u.mongodb.net/adoptme?retryWrites=true&w=majority&appName=Cluster0"
+        - name: JWT_SECRET
+          value: "nuevaclaveultrasecreta"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adoptme-service
+spec:
+  selector:
+    app: adoptme
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 8080
+  type: LoadBalancer
+
